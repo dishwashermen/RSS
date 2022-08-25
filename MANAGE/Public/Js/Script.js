@@ -1,4 +1,4 @@
-var CANSEND = true;
+let CANSEND = true;
 
 let CURRENTUSER = {};
 
