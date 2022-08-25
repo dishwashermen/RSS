@@ -1,3 +1,5 @@
+let test = 1;
+
 let CANSEND = true;
 
 let CURRENTUSER = {};
