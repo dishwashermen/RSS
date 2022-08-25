@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+		<meta name="robots" content="ALL" />
+		
+		<meta name="description" content="" />
+		
+		<meta name="keywords" content="" />
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+		
+		<meta http-equiv="Cache-Control" content="no-cache">
+		
+		<link rel="apple-touch-icon" sizes="180x180" href="Public/Favicon/apple-touch-icon.png">
+		
+        <link rel="icon" type="image/png" sizes="32x32" href="Public/Favicon/favicon-32x32.png">
+        
+        <link rel="icon" type="image/png" sizes="16x16" href="Public/Favicon/favicon-16x16.png">
+        
+        <link rel="manifest" href="Public/Favicon/site.webmanifest">
+        
+        <meta name="msapplication-TileColor" content="#da532c">
+        
+        <meta name="theme-color" content="#ffffff">
+		
+		<link rel="stylesheet" href="Public/Css/Style.css">
+		
+		<link rel="stylesheet" href="Public/Css/Dialog.css">
+		
+		<script src="Public/Js/Vars.js"></script>
+
+		<script src="Public/Js/Script.js"></script>
+				
+		<title>hotRESEARCH</title>
+
+	</head>
+
+	<body>
+		    
+		<table id="HomePage" class="home-page hidden">
+		
+			<tr class="home-page-filler"><td></td></tr>
+			
+			<tr class="home-page-string">
+			
+				<td class="project-name-container"></td>
+
+			</tr>
+			
+			<tr class="home-page-string">
+			
+				<td class="project-description-container"></td>
+
+			</tr>
+			
+			<tr class="home-page-string">
+			
+				<td>
+				
+					<table id="AuthInputContainer" class="auth-input-container">
+					
+						<tr></tr>
+					
+					</table>
+				
+				</td>
+				
+			</tr>
+			
+			<tr id="NotInListChecker" class="home-page-string hidden">
+			
+				<td>
+				
+					<input type="checkbox" id="NotInList" data-assign="checkbox">
+					
+					<label class="checkbox single-string" for="NotInList">Нет в списке</label>
+				
+				</td>
+			
+			</tr>
+			
+			<tr id="NotInListTable" class="home-page-string hidden">
+			
+				<td>
+				
+					<table id="AuthInputContainerNotInList" class="auth-input-container">
+					
+						<tr></tr>
+					
+					</table>
+				
+				</td>
+				
+			</tr>
+			
+			<tr class="home-page-filler"><td></td></tr>
+			
+		</table>
+		
+		<table id="TopContainer" class="top-container hidden">
+		    
+		    <tr>
+		        
+		        <td class="top-project-name"></td>
+		        
+		        <td class="top-data1"></td>
+		        
+		        <td class="top-data2"></td>
+				
+				<td class="top-filler"></td>
+		        
+		        <td class="top-progress"></td>		        
+		        
+		    </tr>
+		    
+		</table>
+	
+		<div id="MainContainer" class="main-container hidden">
+
+			<table class="main-table">
+			
+				<tr>
+				
+					<td id="QName"></td>
+				
+				</tr>
+				
+				<tr>
+				
+					<td class="max-height">
+					
+						<div class="q-container">
+						
+							<table class="q-table">
+							
+								<thead>
+								
+									<tr id="QHeader"></tr>
+								
+								</thead>
+								
+								<tbody id="QBody"></tbody>
+							
+							</table>
+						
+						</div>
+					
+					</td>
+				
+				</tr>
+				
+				<tr>
+				
+					<td id="QButton" class="q-button-container">
+					
+						<table>
+						
+							<tr>
+							
+								<td id="Back" class="button -back hidden" onclick="listener(event)"><</td>
+								
+								<td id="Submit" class="button -submit" onclick="listener(event)"></td>
+							
+							</tr>
+						
+						</table>
+					
+					</td>
+				
+				</tr>
+			
+			</table>
+		
+		</div>
+	
+	</body>
+	
+</html>
