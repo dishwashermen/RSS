@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					
 				if ($HD) foreach ($HD as $data) $HistoryData[$data['QName']] = $data['QResponse'];
 				
-				$UserUpdate = $DB -> prep('UPDATE `scheme_users` SET `StateIndex` = ' . $nextIndex . ', `HistoryState` = :HistoryState' . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . (count($LimitedHIT) ? ', `Limited` = ' . implode(',', $LimitedHIT) : '') . ' WHERE `Id` = :Id', array('Id' => $_POST['UserId'], 'HistoryState' => json_encode($HistoryState)));
+				$UserUpdate = $DBQ -> prep('UPDATE `scheme_users` SET `StateIndex` = ' . $nextIndex . ', `HistoryState` = :HistoryState' . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . (count($LimitedHIT) ? ', `Limited` = ' . implode(',', $LimitedHIT) : '') . ' WHERE `Id` = :Id', array('Id' => $_POST['UserId'], 'HistoryState' => json_encode($HistoryState)));
 
 			} else $UserUpdate = $DBQ -> prep('UPDATE `scheme_users` SET `StateIndex` = ' . $nextIndex . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . (count($LimitedHIT) ? ', `Limited` = ' . implode(',', $LimitedHIT) : '') . ' WHERE `Id` = :Id', array('Id' => $_POST['UserId']));
 
