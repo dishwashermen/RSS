@@ -2312,9 +2312,7 @@ function listener(e) {
 							if (PROJECT.AuthProtect == 'password') FD.append('AuthHash', AuthHash);
 
 							FD.append('ProjectId', PROJECT.id);
-							
-							if (PROJECT.Provisional) FD.append('Provisional', PROJECT.Provisional);
-							
+
 							CANSEND = false;
 							
 							SendRequest('Public/Php/Start40.php', FD);

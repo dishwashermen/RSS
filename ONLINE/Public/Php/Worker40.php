@@ -26,41 +26,25 @@ function GetBaseData($data) {
 	
 }
 
-function NewUser($id, $data, $provisional = false, $hash = false) {
+function NewUser($AuthData) {
 	
-	global $DB;
+	global $_POST;
 	
 	global $DBQ;
 	
 	global $_SERVER;
 	
-	$EmptyId = $DB -> prep('SELECT (`users`.`id` + 1) as `empty_id` FROM `users` WHERE (SELECT 1 FROM `users` as `st` WHERE `st`.`id` = (`users`.`id` + 1)) IS NULL ORDER BY `users`.`id` LIMIT 1') -> fetch(PDO :: FETCH_NUM)[0];
-	
-	$query = 'INSERT INTO `users` (`id`, `prid`, `data1`' . ($hash ? ', `hash`' : '') . ', `UserAgent`, `Status`) VALUES (' . $EmptyId . ', :prId, :data1' . ($hash ? ', :hash' : '') . ', :UserAgent, 1)';
-	
-	$array = array('prId' => $id, 'data1' => $data, 'UserAgent' => $_SERVER['HTTP_USER_AGENT']);
+	$Hash = isset($_POST['AuthHash']) ? hash('sha256', $_POST['AuthHash'] . 'mrs.Maysel') : false;
 
-	if ($hash) $array = array_merge($array, array('hash' => $hash));
-	
-	$newId = $DB -> prep($query, $array);
-	
-	$DBQ -> prep('CREATE TABLE u' . $EmptyId . ' (QName VARCHAR(14) NOT NULL UNIQUE PRIMARY KEY, QResponse TEXT NOT NULL, QSI SMALLINT(5) NULL, Journal SMALLINT(5) NULL, TimeStamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB');
-	
-	if ($provisional) {
-		
-		$prov = explode('*', $provisional);
-		
-		foreach ($prov as $provval) {
-			
-			$provdata = explode('=', $provval);
-			
-			$newProv = $DBQ -> prep('INSERT INTO `u' . $EmptyId . '` (`QName`, `QResponse`, `QSI`) VALUES ("' . $provdata[0] . '", "' . $provdata[1] . '", 0)');
-			
-		}
-		
-	}
+	$Data = array('LoginData' => $AuthData, 'UserAgent' => $_SERVER['HTTP_USER_AGENT']);
 
-	return $EmptyId;
+	if ($Hash) $Data['LoginHash'] = $Hash;
+	
+	$NewId = $DBQ -> prep('INSERT INTO `scheme_users` (`LoginData`' . ($Hash ? ', `LoginHash`' : '') . ', `UserAgent`, `Status`) VALUES (:LoginData' . ($Hash ? ', :LoginHash' : '') . ', :UserAgent, 1)', $Data);
+	
+	$DBQ -> prep('CREATE TABLE u' . $NewId . ' (QName VARCHAR(14) NOT NULL UNIQUE PRIMARY KEY, QResponse TEXT NOT NULL, QSI SMALLINT(5) NULL, Journal SMALLINT(5) NULL, TimeStamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB');
+
+	return $NewId;
 	
 }
 
