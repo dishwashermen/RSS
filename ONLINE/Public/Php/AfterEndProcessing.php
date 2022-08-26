@@ -83,6 +83,10 @@ if ($_POST['AuthType'] == 'base') {
 				
 				$Data[$Key . '_val'] = $FieldValue;
 				
+				echo implode(',', $QueryData);
+				
+				print_r($Data);
+				
 				//$a = $DBQ -> prep('INSERT INTO `u' . $_POST['UserId'] . '` (`QName`, `QResponse`, `QSI`) VALUES ' . implode(',', $QueryData) . ' ON DUPLICATE KEY UPDATE QResponse = VALUES(QResponse), QSI = VALUES(QSI), TimeStamp = CURRENT_TIMESTAMP', $Data);
 				
 			}
