@@ -34,8 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			$QueryString .= '("' . $key . '",:' . $key . ',"' . $_POST['StateIndex'] . '"' . (isset($_POST['JournalIndex']) ? ',"' . $_POST['JournalIndex'] . '"' : '') . '),';
 			
 			$PostValues[$key] = $val;
-			
-			$KR = str_replace('_', '.', $key);
 
 		}
 		
