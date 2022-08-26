@@ -24,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
 		$LimitedHIT = array();
 
-		$ViewContent = isset($_POST['ViewContent']) ? (array) json_decode($_POST['ViewContent']) : false;																						   
+		$ViewContent = isset($_POST['ViewContent']) ? (array) json_decode($_POST['ViewContent']) : false;	
+		
 		$Limited = false;
 		
 		$Aborted = false;
