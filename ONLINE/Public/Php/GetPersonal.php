@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		
 		require_once 'DbSettings.php';
 		
-		require_once 'Worker.php';
+		require_once 'Worker40.php';
 		
 		$DB = new DBWORKER($dbu['host'], $dbu['db'], 'utf8', $dbu['user'], $dbu['pass']);
 		
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			
 			$DBQ = new DBWORKER($dbu['host'], 'koksarea_hot' . $Project['id'], 'utf8', $dbu['user'], $dbu['pass']);
 			
-			$PersonalData = $DBQ -> prep('SELECT `pscheme`.`Hash` FROM `pscheme` WHERE `pscheme`.`MData` = "' . md5($_POST['P']) . '"') -> fetch(PDO :: FETCH_ASSOC);
+			$PersonalData = $DBQ -> prep('SELECT `scheme_personal`.`Hash` FROM `scheme_personal` WHERE `scheme_personal`.`MData` = "' . md5($_POST['P']) . '"') -> fetch(PDO :: FETCH_ASSOC);
 			
 			if ($PersonalData) {
 			
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				
 				if ($RulesData) foreach ($RulesData as $RV) if (! isset($Rules[$RV['Event']]) || ! in_array($RV['StateIndex'], $Rules[$RV['Event']])) $Rules[$RV['Event']][] = $RV['StateIndex'];
 				
-				$UserData = $DB -> prep('SELECT `users`.`id`, `users`.`prid`, `users`.`data1`, `users`.`data2`, `users`.`hash`, `users`.`StateIndex`, `users`.`HistoryState`, `users`.`Status`, `users`.`JournalIndex` FROM `users` WHERE `users`.`prid` = :ProjectId AND `users`.`data1` = :data1', array('ProjectId' => $Project['id'], 'data1' => $PersonalData['Hash'])) -> fetch(PDO :: FETCH_ASSOC);
+				$UserData = $DB -> prep('SELECT `users`.* FROM `users` WHERE `users`.`prid` = :ProjectId AND `users`.`data1` = :data1', array('ProjectId' => $Project['id'], 'data1' => $PersonalData['Hash'])) -> fetch(PDO :: FETCH_ASSOC);
 				
 				if ($UserData) {
 					
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					
 				} else {
 					
-					$Uid = NewUser($Project['id'], array($PersonalData['Hash']));
+					$Uid = NewUser($Project['id'], $PersonalData['Hash']);
 					
 					logger('Create user', $Uid);
 					
