@@ -1,16 +1,14 @@
 <?php 
 
-//$Vid = $DBQ -> prep('SELECT `Id` FROM `scheme_users` WHERE `scheme_users`.`Uid` = :Uid', array('Uid' => $_POST['UserId'])) -> fetch(PDO :: FETCH_ASSOC);
-
-$ColumnName = array();
-	
-$UpdateArray = array();
-	
-$ValueData = array();
-	
-$ValueArray = array();
-
 if ($ViewContent) {
+	
+	$ColumnName = array();
+	
+	$UpdateArray = array();
+		
+	$ValueData = array();
+		
+	$ValueArray = array();
 	
 	$ColumnData = array();
 	
@@ -36,23 +34,10 @@ if ($ViewContent) {
 	
 	if (count($ColumnData)) $DBQ -> prep('ALTER TABLE `scheme_users` ' . implode(',', $ColumnData));
 	
-}
-
-//if ($Vid) {
-	
 	$Data = array_merge(array('Uid' => $_POST['UserId'], 'Status' => $UserStatus, 'StateIndex' => $_POST['StateIndex']), $ValueArray);
-	
-	if (count($LimitedHIT)) $Data['LimitedHIT'] = implode(',', $LimitedHIT);
-	
-	$a = $DBQ -> prep('UPDATE `scheme_users` SET `Status` = :Status, `StateIndex` = :StateIndex' . (count($LimitedHIT) ? ', `Limited` = :LimitedHIT' : '') . (count($UpdateArray) ? ', ' . implode(', ', $UpdateArray) : '') . ' WHERE `Uid` = :Uid', $Data);
-	
-// } else {
-	
-	// $UserData = $DB -> prep('SELECT `data1` FROM `users` WHERE `users`.`id` = :id', array('id' => $_POST['UserId'])) -> fetch(PDO :: FETCH_ASSOC);
-	
-	// $a = $DBQ -> prep('INSERT INTO `vscheme` (`Uid`, `Status`, `StateIndex`, `UserAgent`, `LoginData`' . (count($ColumnName) ? ', `' . implode('`, `', $ColumnName) . '`' : '') . ') VALUES (:Uid, :Status, :StateIndex, :UserAgent, :LoginData' . (count($ValueData) ? ', ' . implode(', ', $ValueData) : '') . ')', array_merge(array('Uid' => $_POST['UserId'], 'Status' => $UserStatus, 'StateIndex' => $_POST['StateIndex'], 'UserAgent' => $_SERVER['HTTP_USER_AGENT'], 'LoginData' => $UserData['data1']), $ValueArray));
-	
-// }
 
+	$a = $DBQ -> prep('UPDATE `scheme_users` SET ' . implode(', ', $UpdateArray) . ' WHERE `Id` = :Uid', $Data);
+	
+}
 
 ?>

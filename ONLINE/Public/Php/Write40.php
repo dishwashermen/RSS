@@ -132,10 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					
 				if ($HD) foreach ($HD as $data) $HistoryData[$data['QName']] = $data['QResponse'];
 				
-				$UserUpdate = $DB -> prep('UPDATE `users` SET `StateIndex` = ' . $nextIndex . ', `HistoryState` = :HistoryState' . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . ' WHERE `id` = :id', array('id' => $_POST['UserId'], 'HistoryState' => json_encode($HistoryState)));	
+				$UserUpdate = $DB -> prep('UPDATE `scheme_users` SET `StateIndex` = ' . $nextIndex . ', `HistoryState` = :HistoryState' . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . (count($LimitedHIT) ? ', `Limited` = ' . implode(',', $LimitedHIT) : '') . ' WHERE `Id` = :Id', array('Id' => $_POST['UserId'], 'HistoryState' => json_encode($HistoryState)));
 
-			} else $UserUpdate = $DB -> prep('UPDATE `users` SET `StateIndex` = ' . $nextIndex . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . ' WHERE `id` = :id', array('id' => $_POST['UserId']));
-			
+			} else $UserUpdate = $DBQ -> prep('UPDATE `scheme_users` SET `StateIndex` = ' . $nextIndex . ($UserStatus ? ', `Status` = ' . $UserStatus : '') . (count($LimitedHIT) ? ', `Limited` = ' . implode(',', $LimitedHIT) : '') . ' WHERE `Id` = :Id', array('Id' => $_POST['UserId']));
+
 			if (isset($_POST['JournalState']) && $_POST['JournalState'] == 'END') $a = $DBQ -> prep('UPDATE `u' . $_POST['UserId'] . '` SET `QName` = CONCAT("' . $_POST['JournalIndex'] . '-", `QName`) WHERE `Journal` = "' . $_POST['JournalIndex'] . '"');
 
 			echo json_encode(array('Q' => GetQ($nextIndex), 'Action' => 'Resume', 'RuleData' => RuleData($nextIndex, $_POST['UserId']), 'StateIndex' => (string) $nextIndex, 'HistoryState' => json_encode($HistoryState), 'HistoryData' => $HistoryData, 'Uid' => $_POST['UserId'], 'Reload' => true, 'LimitText' => ($Limited ? $LimitText : '')));
@@ -160,9 +160,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	
 				}
 				
-				$UserUpdate = $DB -> prep('UPDATE `users` SET `StateIndex` = :StateIndex, `JournalIndex` = :JournalIndex, `HistoryState` = :HistoryState WHERE `id` = :id', array('id' => $_POST['UserId'], 'HistoryState' => json_encode($NewHistoryState), 'StateIndex' => $_POST['JournalState'], 'JournalIndex' => $NewJournalIndex));
+				$UserUpdate = $DB -> prep('UPDATE `scheme_users` SET `StateIndex` = :StateIndex, `JournalIndex` = :JournalIndex, `HistoryState` = :HistoryState WHERE `Id` = :Id', array('Id' => $_POST['UserId'], 'HistoryState' => json_encode($NewHistoryState), 'StateIndex' => $_POST['JournalState'], 'JournalIndex' => $NewJournalIndex));
 				
-			} else $UserUpdate = $DB -> prep('UPDATE `users` SET `StateIndex` = :StateIndex, `JournalIndex` = :JournalIndex WHERE `id` = :id', array('id' => $_POST['UserId'], 'StateIndex' => $_POST['JournalState'], 'JournalIndex' => $NewJournalIndex));
+			} else $UserUpdate = $DB -> prep('UPDATE `scheme_users` SET `StateIndex` = :StateIndex, `JournalIndex` = :JournalIndex WHERE `Id` = :Id', array('Id' => $_POST['UserId'], 'StateIndex' => $_POST['JournalState'], 'JournalIndex' => $NewJournalIndex));
 			
 			echo json_encode(array('Q' => GetQ($_POST['JournalState']), 'Action' => 'Resume', 'RuleData' => RuleData($_POST['JournalState'], $_POST['UserId']), 'StateIndex' => $_POST['JournalState'], 'HistoryState' => json_encode($NewHistoryState), 'HistoryData' => $HistoryData, 'Uid' => $_POST['UserId'], 'Reload' => true, 'JournalIndex' => $NewJournalIndex));
 			
