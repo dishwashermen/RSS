@@ -55,9 +55,9 @@ if ($_POST['AuthType'] == 'base') {
 	
 	$UserLogin = $DBQ -> prep('SELECT `LoginData` FROM `vscheme` WHERE `Uid` = :UserId', array('UserId' => $_POST['UserId'])) -> fetch(PDO :: FETCH_ASSOC);
 	
-	$LoginData = explode(',', $UserLogin['data1']);
+	$LoginData = explode(',', $UserLogin['LoginData']);
 	
-	$BaseData = $DBQ -> prep('SELECT * FROM `scheme_authorization` WHERE (`Auth_1` = "' . $LoginData[0] . '"' . (count($LoginData) > 1 ? ' AND `Auth_2` = "' . $LoginData[1] . '")': ')') . ' OR `Id` = 1') -> fetchAll(PDO :: FETCH_ASSOC);
+	$BaseData = $DBQ -> prep('SELECT * FROM `scheme_authorization` WHERE (`Auth_1` = "' . $LoginData[0] . '"' . (count($LoginData) > 1 ? ' AND `Auth_2` = "' . trim($LoginData[1]) . '")': ')') . ' OR `Id` = 1') -> fetchAll(PDO :: FETCH_ASSOC);
 	
 	if (isset($BaseData[0]['Data_1'])) {
 		
@@ -86,12 +86,8 @@ if ($_POST['AuthType'] == 'base') {
 			}
 			
 		}
-		
-		echo implode(',', $QueryData);
-				
-		print_r($Data);
-		
-		//$a = $DBQ -> prep('INSERT INTO `u' . $_POST['UserId'] . '` (`QName`, `QResponse`, `QSI`) VALUES ' . implode(',', $QueryData) . ' ON DUPLICATE KEY UPDATE QResponse = VALUES(QResponse), QSI = VALUES(QSI), TimeStamp = CURRENT_TIMESTAMP', $Data);
+
+		$a = $DBQ -> prep('INSERT INTO `u' . $_POST['UserId'] . '` (`QName`, `QResponse`, `QSI`) VALUES ' . implode(',', $QueryData) . ' ON DUPLICATE KEY UPDATE QResponse = VALUES(QResponse), QSI = VALUES(QSI), TimeStamp = CURRENT_TIMESTAMP', $Data);
 		
 	}
 	
