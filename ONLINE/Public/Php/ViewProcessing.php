@@ -34,7 +34,7 @@ if ($ViewContent) {
 	
 	if (count($ColumnData)) $DBQ -> prep('ALTER TABLE `scheme_users` ' . implode(',', $ColumnData));
 	
-	$Data = array_merge(array('Uid' => $_POST['UserId'], 'Status' => $UserStatus, 'StateIndex' => $_POST['StateIndex']), $ValueArray);
+	$Data = array_merge(array('Uid' => $_POST['UserId']), $ValueArray);
 
 	$a = $DBQ -> prep('UPDATE `scheme_users` SET ' . implode(', ', $UpdateArray) . ' WHERE `Id` = :Uid', $Data);
 	
